@@ -1,8 +1,7 @@
 <?php 
 session_start();
-if (!$_SESSION['login']) header ("location: login.php");
-
-include "dbactions/user_add.php";
+if (!$_SESSION['login']) header ("location: index.php");
+include "dbactions/settings_update.php";
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +48,7 @@ include "dbactions/user_add.php";
   </script>
   
 
+ 
   
   </head>
   
@@ -56,36 +56,12 @@ include "dbactions/user_add.php";
 
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">PHP Course</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">Users</a></li>
-              <li><a href="#contact">Photos</a></li>
-			  
-			  
-			  
-              <li><a href="#contact">Videos</a></li>
-              <li><a href="#contact">Feedback</a></li>
-              <li><a href="logout.php">Logout - <?php echo $_SESSION['username']; ?></a></li>              
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
+	<!--  include navigation here	-->
+	<?php include "views/nav.php"; ?>
+		
     <div class="container">
 
-      <h1>PHP / MySql</h1>
-	  <p>Basic CRUD oparations on Database</p>
+      <h1>Settings</h1>	  
 	  <br/>  
 	  
 	<?php 
@@ -95,50 +71,32 @@ include "dbactions/user_add.php";
 	$con = mysql_connect("localhost", "root", "");    
     
 	//Step - 2 (Database)
-	mysql_select_db("test");        
+	mysql_select_db("cms");        
     
 	//Step - 3 (SQL / Get result)
-	$sql = "SELECT * from `users`";
+	$sql = "SELECT * from `settings`";
     $result = mysql_query($sql);	
+    $row = mysql_fetch_assoc($result);	
 	  
 	?>
 	  
 	  
 	  <table class="table table-hover">
               <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Username</th>
-                  <th>Email</th>                  
-                  <th>Actions</th>
+                <tr>                  
+                  <th>Sitename</th>
+                  <th>Slogan</th>                                    
                 </tr>
               </thead>
-              <tbody>
-                
-				<?php 
+              <tbody>                
+			
 				
-					//Step - 4 (Grab / Process result of query)
-					$i=0;					
-					while ($row = mysql_fetch_assoc($result)) {
-					$i++;
-					
-					//echo "<pre>";print_r($row);echo "</pre>";
-					
-				?>
-				
-				<tr>
-                  <td><?php echo $i; ?></td>
-                  <td><?php echo $row['username'];?></td>
-                  <td><?php echo $row['email'];?></td>                  
-                  <td>
-					  <a href="">View</a> | 
-					  <a href="dbactions/user_edit.php?id=<?php echo $row['id']; ?>">Edit</a> | 
-					  <a onclick="return sure()" href="dbactions/user_delete.php?id=<?php echo $row['id']; ?>">Delete</a>
-				  </td>
-				</tr>				
+				<tr>                  
+                  <td><?php echo $row['site_name'];?></td>
+                  <td><?php echo $row['site_slogan'];?></td>                                    
+				</tr>					
 				
 				
-				<?php }?>
                 
               </tbody>
             </table>
@@ -153,15 +111,15 @@ include "dbactions/user_add.php";
 	?>
   
 	
-<h3>Add New Users</h3>
+<h3>Update Settings</h3>
 	  
 	  <form class="form-horizontal" action="" method="POST">
 
   <div class="control-group <?php if ($username_error) { echo 'error'; } ?> ">
-    <label class="control-label" for="first_name">Username</label>
+    <label class="control-label" for="first_name">Site Name</label>
     <div class="controls">
     
-	<input type="text" name="username" value="<?php if (isset($username)) echo $username; ?>">
+	<input type="text" name="site_name" value="<?php if (isset($site_name)) {echo $site_name; } else {echo $row['site_name'];} ?>">
 	  
 	<?php if ($username_error) { ?>
       <span class="help-inline"><?php echo $username_error; ?></span>	   	   
@@ -171,9 +129,9 @@ include "dbactions/user_add.php";
   </div>
   
   <div class="control-group <?php if ($password_error) { echo 'error'; } ?>">
-    <label class="control-label" for="username">Password</label>
+    <label class="control-label" for="username">Site Slgan</label>
     <div class="controls">
-      <input type="password" id="password" name="password" value="" >
+      <input type="text" id="site_slogan" name="site_slogan" value="<?php if (isset($site_slogan)) {echo $site_slogan;} else {echo $row['site_slogan'];} ?>" >
 	  
 	  <?php if ($password_error) { ?>
        <span class="help-inline"><?php echo $password_error; ?></span>	   	   
@@ -182,20 +140,10 @@ include "dbactions/user_add.php";
     </div>
   </div>
   
-  <div class="control-group <?php if ($email_error) { echo 'error'; } ?>">
-    <label class="control-label" for="last_name">Email</label>
-    <div class="controls">
-      <input type="text" id="email" name="email" value="<?php if (isset($email)) echo $email; ?>">
-	  <?php if ($email_error) { ?>
-       <span class="help-inline"><?php echo $email_error; ?></span>	   	   
-	  <?php } ?> 
-    </div>
-  </div>
-  
   
   <div class="control-group">
     <div class="controls">      
-      <input name="submit" value="Add User" type="submit" class="btn" />
+      <input name="submit" value="Update Settings" type="submit" class="btn" />
     </div>
   </div>
 </form>

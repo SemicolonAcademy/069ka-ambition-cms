@@ -1,10 +1,22 @@
+<?php 
+	  
+	
+	include "includes/common.php";        
+    
+	//Step - 3 (SQL / Get result)
+	$sql = "SELECT * from `settings`";
+    $result = mysql_query($sql);	
+    $row = mysql_fetch_assoc($result);	
+	  
+	?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
 
-<title>Ambition CMS</title>
+<title><?php echo $row['site_name'];?></title>
 
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="author" content="Erwin Aligam - styleshout.com" />
@@ -15,6 +27,18 @@
 
 <link rel="stylesheet" type="text/css" media="screen" href="css/screen.css" />
 
+<link media="screen" rel="stylesheet" href="<?php echo $site_url;?>third_party/colorbox/colorbox.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script src="<?php echo $site_url;?>third_party/colorbox/jquery.colorbox.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){		
+			
+			$(".cbox").colorbox({transition:"none", width:"85%", height:"85%"});
+			
+		});
+	</script>	
+	
 </head>
 
 <body>
@@ -25,8 +49,8 @@
 	<!--header -->
 	<div id="header">			
 				
-		<h1 id="logo-text"><a href="index.html" title="">Ambition CMS</a></h1>		
-		<p id="slogan">Simple Content Management System</p>	
+		<h1 id="logo-text"><a href="<?php echo $site_url;?>" title=""><?php echo $row['site_name'];?></a></h1>		
+		<p id="slogan"><?php echo $row['site_slogan'];?></p>	
 		
 		<div  id="nav">
 			<ul>
@@ -205,14 +229,17 @@
 			<h3>Image Gallery </h3>					
 				
 			<p class="thumbs">
-				<a href="index.html"><img src="images/thumb.jpg" width="40" height="40" alt="thumbnail" /></a>
-				<a href="index.html"><img src="images/thumb.jpg" width="40" height="40" alt="thumbnail" /></a>
-				<a href="index.html"><img src="images/thumb.jpg" width="40" height="40" alt="thumbnail" /></a>
-				<a href="index.html"><img src="images/thumb.jpg" width="40" height="40" alt="thumbnail" /></a>
-				<a href="index.html"><img src="images/thumb.jpg" width="40" height="40" alt="thumbnail" /></a>
-				<a href="index.html"><img src="images/thumb.jpg" width="40" height="40" alt="thumbnail" /></a>	
-				<a href="index.html"><img src="images/thumb.jpg" width="40" height="40" alt="thumbnail" /></a>
-				<a href="index.html"><img src="images/thumb.jpg" width="40" height="40" alt="thumbnail" /></a>				
+			
+			<?php       
+	
+				$sql = "SELECT * FROM `gallery` LIMIT 8";				
+				$gallery = mysql_query($sql); 	 
+				if ($gallery && mysql_num_rows($gallery)) {	 
+				while ($row = mysql_fetch_assoc($gallery)) {
+				?>					
+				<a class="cbox" href="<?php echo $upload_url.$row['path'];?>"><img height="40" width="40" src="<?php echo $upload_url.$row['path']; ?>"/> </a>
+                  				
+				<?php } } ?>
 			</p>				
 				
 				

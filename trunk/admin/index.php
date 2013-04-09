@@ -1,5 +1,7 @@
 <?php
-	session_start();
+	session_start();	
+	if ($_SESSION['login']) header ("location: admin.php");
+
 	
 	$username = $_POST['username'];	$password = $_POST['password'];		
 	if ($_POST['submit'] && ($username !="" && $password !="" )) {	
@@ -18,7 +20,7 @@
 				$_SESSION['username'] = $username;
 				
 				//redirect to database
-				header ("location: database.php");
+				header ("location: admin.php");
 				
 				
 			}else {
