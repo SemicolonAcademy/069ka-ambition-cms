@@ -15,6 +15,7 @@ if (!$_SESSION['login']) exit;
             <ul class="nav">
               <li><a href="admin.php">Home</a></li>
               <li><a href="navigations.php">Navigations</a></li>
+              <li><a href="posts.php">Posts</a></li>
               <li><a href="settings.php">Settings</a></li>
               <li><a href="gallery.php">Gallery</a></li>
               <li><a href="#contact">Feedback</a></li>

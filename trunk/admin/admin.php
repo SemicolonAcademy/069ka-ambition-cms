@@ -34,20 +34,43 @@ include "dbactions/user_add.php";
                     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
                                    <link rel="shortcut icon" href="assets/ico/favicon.png">
   
-  
-  <script type="text/javascript">
-  
-  function sure(){
-  
-	if (confirm("Are you sure delete this user ?")){
-		return true;
-	}else {
-		return false;
-	}
-  }	
-  </script>
-  
-
+	<script src="assets/js/jquery.js"></script>
+  	
+	<script type="text/javascript">
+	
+		
+		$(document).ready(function(){
+		
+			$(".delete").click(function(){
+				
+				var url = $(this).attr("href"); //alert(url);
+				var btn = $(this);
+				
+				//$(this).closest('tr').fadeOut("slow");
+				
+				$.ajax({
+				type: "GET",
+				url: url,
+				success: function(res) {				
+						if (res == "SUCCESS") {
+							$(btn).closest('tr').fadeOut('slow');
+							
+						}else {
+							alert("Couldn't delete ! Retry.");
+						}
+					}
+				}); 
+			
+				
+				return false;
+				
+			});
+			
+		
+		});
+		
+		
+	</script>
  
   
   </head>
@@ -71,7 +94,7 @@ include "dbactions/user_add.php";
 	$con = mysql_connect("localhost", "root", "");    
     
 	//Step - 2 (Database)
-	mysql_select_db("test");        
+	mysql_select_db("cms");        
     
 	//Step - 3 (SQL / Get result)
 	$sql = "SELECT * from `users`";
@@ -109,7 +132,7 @@ include "dbactions/user_add.php";
                   <td>
 					  <a href="">View</a> | 
 					  <a href="dbactions/user_edit.php?id=<?php echo $row['id']; ?>">Edit</a> | 
-					  <a onclick="return sure()" href="dbactions/user_delete.php?id=<?php echo $row['id']; ?>">Delete</a>
+					  <a class="delete" href="dbactions/user_delete.php?id=<?php echo $row['id']; ?>">Delete</a>
 				  </td>
 				</tr>				
 				
@@ -182,7 +205,7 @@ include "dbactions/user_add.php";
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.js"></script>
+    
     <script src="assets/js/bootstrap-transition.js"></script>
     <script src="assets/js/bootstrap-alert.js"></script>
     <script src="assets/js/bootstrap-modal.js"></script>

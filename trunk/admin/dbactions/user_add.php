@@ -32,10 +32,10 @@ if (isset($_POST['submit'])) {
 	if(!$error) {	
 		
 		$con = mysql_connect("localhost", "root", "");    	
-		mysql_select_db("test");        	
+		mysql_select_db("cms");        	
 		$sql = "INSERT INTO `users` (`id`, `username`, `password`, `email`) VALUES (NULL, '$username','$password','$email');";
 		mysql_query($sql);	
-		header ("location: database.php");
+		header ("location: admin.php");
 	
 	}
 	
