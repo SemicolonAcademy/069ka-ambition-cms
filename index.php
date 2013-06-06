@@ -70,28 +70,32 @@
 	<div id="featured" class="clear">				
 				
 			<a name="TemplateInfo"></a>
+
+			<?php	
+			
+			$featured_sql = "SELECT post.*, post_categories.name, users.username from `post` 
+			JOIN `post_categories` ON post.category = post_categories.id        
+			JOIN `users` ON post.user_id = users.id 
+			WHERE post_categories.slug ='featured' order by post.created_at DESC LIMIT 1";
+			
+			$featured_result = mysql_query($featured_sql);	
+			$featured_post = mysql_fetch_assoc($featured_result);	
+			
+				
+			?>
 			
 			<div class="image-block">
-              <img src="images/img-featured.jpg" alt="featured"/>
-         </div>			
+              <img width="330" src="<?php echo UPLOAD_PATH.$featured_post['image'];?>" alt="featured"/>
+			</div>			
 			
 			<div class="text-block">
 			
-				<h2><a href="index.html">Featured Post</a></h2>
-                <p class="post-info">Posted by <a href="index.html">erwin</a> | Filed under <a href="index.html">templates</a>, <a href="index.html">internet</a></p>
+				<h2><a href="index.html"><?php echo $featured_post['title'];?></a></h2>
+				
+                <p class="post-info">Posted by <a href="index.html"><?php echo $featured_post['username'];?></a></p>
 			
-                <p><strong>FreshPick</strong> is a free, W3C-compliant, CSS-based website template
-				by <a href="http://www.styleshout.com/">styleshout.com</a>. This work is
-				distributed under the <a rel="license" href="http://creativecommons.org/licenses/by/2.5/">
-				Creative Commons Attribution 2.5  License</a>, which means that you are free to
-				use and modify it for any purpose. All I ask is that you give me credit by including a <strong>link back</strong> to
-				<a href="http://www.styleshout.com/">my website</a>.
-                </p>
-
                 <p>
-                You can find more of my free template designs at <a href="http://www.styleshout.com/">my website</a>.
-				For premium commercial designs, you can check out
-                <a href="http://www.dreamtemplate.com" title="Website Templates">DreamTemplate.com</a>.
+				<?php echo substr($featured_post['content'],0,300); ?>
 				</p>
 
 				<p><a href="index.html" class="more-link">Read More</a></p>
@@ -108,59 +112,34 @@
 		
 			<div id="left">			
 			
+				
+			<?php	
+			
+			$general_sql = "SELECT post.*, post_categories.name, users.username from `post` 
+			JOIN `post_categories` ON post.category = post_categories.id        
+			JOIN `users` ON post.user_id = users.id 
+			WHERE post_categories.slug ='general' order by post.created_at DESC LIMIT 5";
+			
+			$general_result = mysql_query($general_sql);	
+			
+			while ($post = mysql_fetch_assoc($general_result))	{
+			
+				
+			?>
+			
 				<div class="entry">
 				
-					<h3><a href="index.html">Aliquam Risus Justo</a></h3>
+					<h3><a href="index.html"><?php echo $post['title'];?></a></h3>
 					<p>
-					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. 
-					Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu 
-					posuere nunc justo tempus leo. Donec mattis, purus nec placerat bibendum, dui pede condimentum 
-					odio, ac blandit ante orci ut diam. Cras fringilla magna. Phasellus suscipit, leo a pharetra 
-					condimentum, lorem tellus eleifend magna, eget fringilla velit magna id neque. Curabitur vel urna. 
-					In tristique orci porttitor ipsum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. 
-					Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu 
-					posuere nunc justo tempus leo. 				
+						<?php echo substr($post['content'],0,300);?>
 					</p>
 								
 					<p><a class="more-link" href="index.html">continue reading</a></p>
 				
 				</div>
 				
-				<div class="entry">
-						
-					<h3>Lorem Ipsum Dolor Sit Amet</h3>
-					<p>
-					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. 
-					Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu 
-					posuere nunc justo tempus leo. Donec mattis, purus nec placerat bibendum, dui pede condimentum 
-					odio, ac blandit ante orci ut diam. Cras fringilla magna. Phasellus suscipit, leo a pharetra 
-					condimentum, lorem tellus eleifend magna, eget fringilla velit magna id neque. Curabitur vel urna. 
-					In tristique orci porttitor ipsum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. 
-					Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu 
-					posuere nunc justo tempus leo. 				
-					</p>
+			<?php } ?>
 				
-					<p><a class="more-link" href="index.html">continue reading</a></p>
-				
-				</div>
-				
-				<div class="entry">
-			
-					<h3>Lorem Ipsum</h3>
-					<p>
-					Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. 
-					Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu 
-					posuere nunc justo tempus leo. Donec mattis, purus nec placerat bibendum, dui pede condimentum 
-					odio, ac blandit ante orci ut diam. Cras fringilla magna. Phasellus suscipit, leo a pharetra 
-					condimentum, lorem tellus eleifend magna, eget fringilla velit magna id neque. Curabitur vel urna. 
-					In tristique orci porttitor ipsum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. 
-					Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu 
-					posuere nunc justo tempus leo. 				
-					</p>
-				
-					<p><a class="more-link" href="index.html">continue reading</a></p>
-			
-				</div>
 				
 			</div>
 		

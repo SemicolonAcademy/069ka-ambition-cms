@@ -5,6 +5,7 @@
 	
 	$_SESSION['login'] = 0;
 	$_SESSION['username'] = "";
+	$_SESSION['user_id'] = 0;
 	
 	//or
 	
@@ -14,7 +15,7 @@
 	session_destroy();
 	
 	//redirect to login page
-	header ("location: login.php");
+	header ("location: index.php");
 				
 				
 ?>

@@ -1,23 +1,30 @@
 <?php
 	session_start();	
 	if ($_SESSION['login']) header ("location: admin.php");
+	include "includes/common.php";
 
 	
-	$username = $_POST['username'];	$password = $_POST['password'];		
+	//$username = addslashes($_POST['username']);	
+	$username = addslashes($_POST['username']);	
+	$password = addslashes($_POST['password']);		
+	
 	if ($_POST['submit'] && ($username !="" && $password !="" )) {	
 	
 		$password = md5($_POST['password']);		
-		$con = mysql_connect("localhost", "root", "");        
-		mysql_select_db("test");        		
+		
 		$sql = "select * from `users` where `username` = '$username' and `password` = '$password'";
 		$result = mysql_query($sql);				
 		$count_result = mysql_num_rows($result);
+		
 			if ($count_result == 1 ) {
 				
 				//echo "Login Success!";			
 				//set session	
 				$_SESSION['login'] = 1;
 				$_SESSION['username'] = $username;
+				
+				$user = mysql_fetch_assoc($result);				
+				$_SESSION['user_id'] = $user['id'];
 				
 				//redirect to database
 				header ("location: admin.php");
